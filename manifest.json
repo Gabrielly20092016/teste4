@@ -1,0 +1,39 @@
+{
+  "name": "Gravador de voz",
+  "short_name":"gravador",
+  "start_url": "/miss-o-111/",
+  "display": "standalone",
+  "icons": [
+    
+    {
+      "src": "imagem/icon192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "imagem/icon512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.github.android",
+      "id": "com.github.android"
+    }
+  ],
+
+  "theme_color": "#3498db",
+  "background_color": "#ffffff",
+  "id": "Gravador De Voz",
+  "description": "Simulador de gravador de voz",
+  "dir": "ltr",
+  "lang": "pt",
+  "scope": "/miss-o-111/",
+  "orientation": "portrait",
+  "categories": [
+    "utilities"
+  ]
+}
