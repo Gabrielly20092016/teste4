@@ -1,66 +1,47 @@
-// Modelo inicial do service worker para copiar e completar.
+// This is the "Offline page" service worker
 
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-// Complete cada TODO durante a atividade.
+const CACHE = "pwabuilder-page";
 
-const NOME_DO_CACHE = 'lanche-do-codigo-v1';
+// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
+const offlineFallbackPage = "ToDo-replace-this-name.html";
 
-
-// TODO: acrescente somente caminhos de arquivos que já existem no projeto.
-
-const ARQUIVOS_DO_APP = [
-
-  './',
-
-
-
-  './index.html',
-
-
-
-  './style.css',
-
-
-
-  './script.js',
-
-
-
-  './manifest.json',
-
-
-  './offline.html',
-  
-  './sw.js'
-
-];
-
-self.addEventListener('install', function (evento) {
-
-  // TODO: abra o cache e salve ARQUIVOS_DO_APP com cache.addAll().
-
-  console.log('Service worker instalado.');
-
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
-self.addEventListener('activate', function (evento) {
-
-
-
-  // TODO: remova caches cujo nome seja diferente de NOME_DO_CACHE.
-
-
-
-  console.log('Service worker ativado.');
-
-
+self.addEventListener('install', async (event) => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.add(offlineFallbackPage))
+  );
 });
 
-self.addEventListener('fetch', function (evento) {
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
 
+self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const preloadResp = await event.preloadResponse;
 
+        if (preloadResp) {
+          return preloadResp;
+        }
 
-  // TODO: procure a solicitação no cache e use a rede como alternativa.
+        const networkResp = await fetch(event.request);
+        return networkResp;
+      } catch (error) {
 
-
+        const cache = await caches.open(CACHE);
+        const cachedResp = await cache.match(offlineFallbackPage);
+        return cachedResp;
+      }
+    })());
+  }
 });
