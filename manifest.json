@@ -4,14 +4,14 @@
   "start_url": "/miss-o-111/",
   "display": "standalone",
   "icons": [
-    
+
     {
-      "src": "imagem/icon192x192.png",
+      "src": "imagem/icon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "imagem/icon512x512.png",
+      "src": "imagem/icon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
